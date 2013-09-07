@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="100"
+    tools:context=".MainActivity" >
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:layout_marginLeft="10dp"
+        android:drawableTop="@drawable/content_new_event"
+        android:onClick="onClick_add"
+        android:text="Add"
+        android:textColor="@color/gray" />
+
+    <Button
+        android:id="@+id/btn_List"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left"
+        android:layout_marginLeft="10dp"
+        android:drawableTop="@drawable/collections_sort_by_size"
+        android:onClick="onClick_legend"
+        android:text="Events"
+        android:textColor="@color/gray" />
+
+    <Button
+        android:id="@+id/info"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="About"
+        android:drawableBottom="@drawable/action_help"
+        android:textColor="@color/gray" />
+
+</FrameLayout>
