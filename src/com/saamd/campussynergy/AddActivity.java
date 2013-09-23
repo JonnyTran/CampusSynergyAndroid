@@ -216,48 +216,49 @@ public class AddActivity extends Activity {
 			// Parse.initialize(this,
 			// "QuoI3WPv5g9LyP4awzhZEH8FvRKIgWgFEdFJSTmB",
 			// "DsDAvLDiDSLQ9VFOLRte3Ck7Yk1MmJONfeUWjZ5V");
-
-			ParseObject campus_synergy = new ParseObject("campus_synergy");
-
-			campus_synergy.put("title", titleText.getText().toString());
-			campus_synergy.put("bldName", dropDownSpinner.getSelectedItem().toString());
-			campus_synergy.put("longDescription", descriptionText.getText().toString());
-
-			// Reformatting the string from hh:mm to hh.mm
-
-			String holder = startingTimeBtn.getText().toString();
-			String array[] = holder.split(":");
-			String number = array[0] + "." + array[1];
-			System.out.println("number: " + number + " Holder is: " + holder);
-			campus_synergy.put("timeStart", Double.parseDouble(number));
-			/**/
-			campus_synergy.put("date", eventDate);
+			try{
+				ParseObject campus_synergy = new ParseObject("campus_synergy");
+	
+				campus_synergy.put("title", titleText.getText().toString());
+				campus_synergy.put("bldName", dropDownSpinner.getSelectedItem().toString());
+				campus_synergy.put("longDescription", descriptionText.getText().toString());
+	
+				// Reformatting the string from hh:mm to hh.mm
+	
+				String holder = startingTimeBtn.getText().toString();
+				String array[] = holder.split(":");
+				String number = array[0] + "." + array[1];
+				System.out.println("number: " + number + " Holder is: " + holder);
+				/**/
+				
+				campus_synergy.put("date", eventDate);
+				
+				campus_synergy.put("duration", Integer.parseInt(durationBtn.getText().toString()));
+				campus_synergy.put("roomString", roomNumberBtn.getText().toString());
+				campus_synergy.put("publisher", settings.getString("publisherName", " "));
+				// campus_synergy.saveInBackground();
+				
+				campus_synergy.saveInBackground(new SaveCallback() {
+					
+					@Override
+					public void done(ParseException arg0) {
+						// TODO Auto-generated method stub
+						Context context = getApplicationContext();
+						CharSequence text = "Data Submitted successfully! Thanks";
+						int duration = Toast.LENGTH_SHORT;
+	
+						Toast toast = Toast.makeText(context, text, duration);
+						toast.show();
+	
+						Intent i = new Intent(AddActivity.this, MainActivity.class);
+						startActivity(i);
+						finish();
+					}
+				});
 			
-			campus_synergy.put("duration",
-					Integer.parseInt(durationBtn.getText().toString()));
-			campus_synergy.put("room",
-					Double.parseDouble(roomNumberBtn.getText().toString()));
-
-			campus_synergy.put("publisher", settings.getString("publisherName", " "));
-			// campus_synergy.saveInBackground();
-
-			campus_synergy.saveInBackground(new SaveCallback() {
-
-				@Override
-				public void done(ParseException arg0) {
-					// TODO Auto-generated method stub
-					Context context = getApplicationContext();
-					CharSequence text = "Data Submitted successfully! Thanks";
-					int duration = Toast.LENGTH_SHORT;
-
-					Toast toast = Toast.makeText(context, text, duration);
-					toast.show();
-
-					Intent i = new Intent(AddActivity.this, MainActivity.class);
-					startActivity(i);
-					finish();
-				}
-			});
+			} catch (Exception e){
+				Log.d("USER","ERROR Adding activity e: " + e.toString());
+			}
 		} else {
 			// No Internet connection
 			Context context = getApplicationContext();
