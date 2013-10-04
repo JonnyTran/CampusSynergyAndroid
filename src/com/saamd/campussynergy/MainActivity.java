@@ -178,7 +178,7 @@ public class MainActivity extends Activity {
 								// the following line adds the marker to the map object
 								//map.addMarker(markerOptions.position(location).title(title).snippet(buildingName.toString()));
 								//the following code adds the event to the event list
-								eventList.add(new Event(title,buildingName, pointDescription, scoreList.get(i).getInt("room"), scoreList.get(i).getDouble("timeStart"), scoreList.get(i).getDouble("duration"), date, publisher));
+								eventList.add(new Event(title,buildingName, pointDescription, scoreList.get(i).getString("roomString"), scoreList.get(i).getDouble("duration"), date, publisher));
 								
 								//add all the building to the building list
 								Building bld = new Building(buildingName);

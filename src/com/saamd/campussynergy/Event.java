@@ -9,18 +9,16 @@ public class Event implements Serializable, Comparable<Event>{
 	private String description = "";
 	private String buildingName = "";
 	private String publisher = "";
-	private int roomNumber = 0;
+	private String roomNumber = "0";
 	private Date date;
-	private double startingTime = 0;
 	private double duration = 0;
 
-	public Event (String title, String building, String description, int room,
-			double startingTime, double duration, Date date, String publisher) {
+	public Event (String title, String building, String description, String room,
+			double duration, Date date, String publisher) {
 		setTitle(title);
 		setBuildingName(building);
 		setDescription(description);
 		setRoomNumber(room);
-		setStartingTime(startingTime);
 		setDuration(duration);
 		setDate(date);
 		setPublisher(publisher);
@@ -44,20 +42,12 @@ public class Event implements Serializable, Comparable<Event>{
 			this.description = description;
 	}
 
-	public int getRoomNumber() {
+	public String getRoomNumber() {
 		return roomNumber;
 	}
 
-	public void setRoomNumber(int roomNumber) {
+	public void setRoomNumber(String roomNumber) {
 		this.roomNumber = roomNumber;
-	}
-
-	public double getStartingTime() {
-		return startingTime;
-	}
-
-	public void setStartingTime(double startingTime) {
-		this.startingTime = startingTime;
 	}
 
 	public double getDuration() {
