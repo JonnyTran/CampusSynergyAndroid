@@ -208,9 +208,6 @@ public class MainActivity extends Activity {
 				//Sorting events based on date
 				Collections.sort(eventList);
 				
-				//highlightBuilding("ERB");
-				//highlightBuilding("NH");
-				//highlightBuilding("ZEDD");
 				
 			}
 		});
@@ -389,7 +386,7 @@ public class MainActivity extends Activity {
 	}
 	//not used anymore
 	public void showEventList(){
-		View view = LayoutInflater.from(this).inflate(R.layout.event_list, null);
+		View view = LayoutInflater.from(this).inflate(R.layout.event_list_item, null);
 		dialog = new Dialog(MainActivity.this);
 		dialog.requestWindowFeature(Window.FEATURE_OPTIONS_PANEL);
 		dialog.setContentView(view);
@@ -401,7 +398,7 @@ public class MainActivity extends Activity {
 			stringArrayList.add(x.getTitle());
 		}
 		
-		TabHost tabHost= (TabHost) view.findViewById(R.id.tabhost);
+		/*TabHost tabHost= (TabHost) view.findViewById(R.id.tabhost);
 		tabHost.setup();
 
 		TabSpec spec1=tabHost.newTabSpec("Tab 1");
@@ -414,7 +411,7 @@ public class MainActivity extends Activity {
 		
 		tabHost.addTab(spec1);
 		tabHost.addTab(spec2);
-		
+		*/
 		ListView list1 = (ListView) view.findViewById(R.id.eventList);
 		ArrayAdapter<String> arrayAdapter =      
 		         new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, stringArrayList);

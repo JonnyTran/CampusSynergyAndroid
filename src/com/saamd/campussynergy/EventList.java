@@ -46,6 +46,7 @@ public class EventList extends Activity  {
 					Intent i = new Intent(EventList.this, EventDisplay.class);
 					i.putExtra("Event", eventList.get(position) );
 					startActivity(i);
+					finish();
 		        }
 
 		});

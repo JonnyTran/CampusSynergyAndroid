@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,14 +26,22 @@
                 android:src="@drawable/mobi_logo_512" />
 
             <TextView
-                android:id="@+id/textView1"
+                android:id="@+id/textView_list_item_building"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
                 android:text="We Make Apps"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mobi(formerly known as SAAMD) is a student organization that aims to engage its members in an active learning environment for mobile development while promoting scholastic excellence.\nStudents will be able to apply their knowledge in Java, OOP, Algorithms, Database, OS, Mobile Systems, and Networks to their own projects that involve mobile development using the iPhone and Android OS as an integral part in their projects.\nEntrepreneurial thinking is encouraged as Mobi explores the tools that start-ups are using to make the rapid development process possible in such a fast moving world. These objectives aim to harbor creativity and leadership skills in our members. They also promote a sense of commitment and teamwork when students carry these projects through full business models taking them from the white-board to the real market."
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/textView_list_item_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="23dp"
@@ -41,12 +49,12 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textView_list_item_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="Thaddeus Madison\nZaid Abdulla"
+                android:text="Zedd Shmais\n"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
@@ -62,11 +70,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                android:text="Zaid Abdulla\nJames Staud"
+                android:text="Zedd Shmais\nJames Fielder\nJames Staud"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <Button
-                android:id="@+id/feedBack"
+                android:id="@+id/button_feedBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Report a bug" />
@@ -74,4 +82,4 @@
         </LinearLayout>
     </ScrollView>
 
-</RelativeLayout>
+</LinearLayout>

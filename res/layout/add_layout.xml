@@ -13,7 +13,7 @@
             android:id="@+id/TextView01"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Event title"
+            android:text="Title"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
@@ -21,13 +21,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="Add title"
             android:inputType="textMultiLine" />
 
+        
         <TextView
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Event description"
+            android:text="Description"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
@@ -35,16 +37,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="Add description"
             android:inputType="textMultiLine" >
 
-            <requestFocus />
+            
         </EditText>
 
         <TextView
             android:id="@+id/textView_BuildingName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Choose building"
+            android:text="Building"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <Spinner
@@ -56,21 +59,21 @@
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Room number"
+            android:text="Room"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <Button
-            android:id="@+id/button_roomNumber"
+        <EditText
+            android:id="@+id/editText_room_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="onClick_roomNumberBtn"
-            android:text="100" />
+            android:ems="10"
+            android:hint="Add room number" />
 
         <TextView
             android:id="@+id/textView_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Starting time"
+            android:text="Time"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <Button
@@ -105,7 +108,6 @@
             android:id="@+id/button_duration"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:onClick="onClick_durationBtn"
             android:text="1" />
 
         <Button
@@ -113,10 +115,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:minHeight="55dp"
+            android:minWidth="150dp"
             android:onClick="onClick_submit"
             android:paddingTop="10dp"
-            android:text="Submit"
+            android:text="SUBMIT"
             android:textAppearance="?android:attr/textAppearanceLarge" />
+
     </LinearLayout>
 
 </ScrollView>

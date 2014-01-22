@@ -21,7 +21,8 @@
         android:drawableTop="@drawable/content_new_event"
         android:onClick="onClick_add"
         android:text="Add"
-        android:textColor="@color/gray" />
+        android:textColor="@color/gray"
+        android:textColorHint="@color/DarkBlue" />
 
     <Button
         android:id="@+id/btn_List"

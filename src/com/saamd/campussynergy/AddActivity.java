@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-
 import org.xmlpull.v1.XmlPullParserException;
 
 import com.parse.Parse;
@@ -16,11 +15,13 @@ import com.parse.SaveCallback;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -41,30 +42,33 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 public class AddActivity extends Activity {
+	
 
 	public static final String PREFS_NAME = "MyPrefsFile";
-
+	private SharedPreferences settings;
+	
+	
 	private ArrayList<String> buildings = new ArrayList<String>();
 	Dialog dialog;
 
-	private SharedPreferences settings;
-	
+
 	private Spinner dropDownSpinner;
 	private EditText descriptionText;
 	private EditText titleText;
 	private Button durationBtn;
 	
-	private Button roomNumberBtn;
+	private EditText roomNumber;
 	private static Button startingTimeBtn;		//being static is required
 	private static Button dateBtn;				//being static is required	
 	private static Date eventDate;
 
-	private static boolean flag;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		
+		
 		
 		//retrieve data from shared preferences
 		settings = getSharedPreferences(PREFS_NAME, 0);
@@ -105,7 +109,16 @@ public class AddActivity extends Activity {
 			dropDownSpinner = (Spinner) findViewById(R.id.spinner_buildingName);
 			descriptionText = (EditText) findViewById(R.id.editText_eventDescription);
 			durationBtn = (Button) findViewById(R.id.button_duration);
-			roomNumberBtn = (Button) findViewById(R.id.button_roomNumber);
+			durationBtn.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					onClick_durationBtn();
+				}
+			});
+			
+			
+			roomNumber = (EditText) findViewById(R.id.editText_room_number);
 			dateBtn = (Button) findViewById(R.id.button_date);
 			setDateButtonText(null); 	// null sets it to the current date
 			startingTimeBtn = (Button) findViewById(R.id.button_startingTime);
@@ -114,41 +127,7 @@ public class AddActivity extends Activity {
 			
 			Parse.initialize(this, getString(R.string.ParseAuthCode_1), getString(R.string.ParseAuthCode_2));
 			setSpinner();
-			/*
-			ParseQuery query = new ParseQuery("geo_data");
-			query.findInBackground(new FindCallback() {
-				public void done(List<ParseObject> scoreList, ParseException e) {
-					if (e == null) {
-						Log.d("score", "Retrieved " + scoreList.size()
-								+ " scores");
-						for (int i = 0; i < scoreList.size(); i++) {
-
-							Building building = new Building();
-
-							ParseGeoPoint pointLocation = new ParseGeoPoint();
-							pointLocation = scoreList.get(i).getParseGeoPoint(
-									"location");
-
-							building.setLatitude(pointLocation.getLatitude());
-							building.setLongitude(pointLocation.getLongitude());
-
-							building.setName(scoreList.get(i).getString(
-									"bldName"));
-
-							buildings.add(building);
-
-							if (i + 1 == scoreList.size()) {
-								Collections.sort(buildings);
-								setSpinner();
-							}
-						}
-					} else {
-						Log.d("score", "Error: " + e.getMessage());
-					}
-				}
-			});
-			/**/
-
+			
 		}
 	}
 
@@ -213,9 +192,7 @@ public class AddActivity extends Activity {
 			
 		if (isOnline() && pass) {
 			// Internet connection available
-			// Parse.initialize(this,
-			// "QuoI3WPv5g9LyP4awzhZEH8FvRKIgWgFEdFJSTmB",
-			// "DsDAvLDiDSLQ9VFOLRte3Ck7Yk1MmJONfeUWjZ5V");
+
 			try{
 				ParseObject campus_synergy = new ParseObject("campus_synergy");
 	
@@ -234,7 +211,7 @@ public class AddActivity extends Activity {
 				campus_synergy.put("date", eventDate);
 				
 				campus_synergy.put("duration", Integer.parseInt(durationBtn.getText().toString()));
-				campus_synergy.put("roomString", roomNumberBtn.getText().toString());
+				campus_synergy.put("roomString", roomNumber.getText().toString());
 				campus_synergy.put("publisher", settings.getString("publisherName", " "));
 				// campus_synergy.saveInBackground();
 				
@@ -249,9 +226,8 @@ public class AddActivity extends Activity {
 	
 						Toast toast = Toast.makeText(context, text, duration);
 						toast.show();
-	
-						Intent i = new Intent(AddActivity.this, MainActivity.class);
-						startActivity(i);
+						
+									
 						finish();
 					}
 				});
@@ -311,19 +287,27 @@ public class AddActivity extends Activity {
 		});
 	}
 
-	public void onClick_durationBtn(View v) {
+	private void onClick_durationBtn() {
 
-		View view = LayoutInflater.from(this).inflate(R.layout.number_picker,
-				null);
-		dialog = new Dialog(AddActivity.this);
-		dialog.setTitle("Set Duration");
-		//dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(view);
-		//dialog.getWindow().setLayout(384, 400);
-		dialog.show();
-		Button ok = (Button) view.findViewById(R.id.button_ok);
-		final NumberPicker numberPicker = (NumberPicker) view
-				.findViewById(R.id.numberPicker1);
+		View view = LayoutInflater.from(this).inflate(R.layout.number_picker, null);
+		
+		final NumberPicker numberPicker = (NumberPicker) view.findViewById(R.id.numberPicker1);		
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setView(view); // add EditText to dialog
+		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				
+				int hour = numberPicker.getValue();
+				String time = hour + "";
+				durationBtn.setText(time);
+				dialog.dismiss();
+			}
+		} );
+		
+		
 		String[] nums = new String[25];
 		for (int i = 0; i < nums.length; i++)
 			nums[i] = Integer.toString(i);
@@ -332,60 +316,14 @@ public class AddActivity extends Activity {
 		numberPicker.setWrapSelectorWheel(false);
 		numberPicker.setDisplayedValues(nums);
 		numberPicker.setValue(1);
-
-		ok.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
-				int hour = numberPicker.getValue();
-				String time = hour + "";
-				durationBtn.setText(time);
-				dialog.hide();
-			}
-		});
-	}
-
-	public void onClick_roomNumberBtn(View V) {
-		View view = LayoutInflater.from(this).inflate(R.layout.number_picker,
-				null);
-		dialog = new Dialog(AddActivity.this);
-		dialog.setTitle("Set Room");
-		//dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		// dialog.requestWindowFeature()
-		dialog.setContentView(view);
-		//dialog.getWindow().setLayout((int) (ScreenManager.getWidth(this) * 0.8), (int) (ScreenManager.getHeight(this) * 0.5));
+		
+		
+		dialog = builder.create();
+		dialog.setTitle("Set Duration");
 		dialog.show();
-
-		// View Widgets
-		Button ok = (Button) view.findViewById(R.id.button_ok);
-		final NumberPicker numberPicker = (NumberPicker) view
-				.findViewById(R.id.numberPicker1);
-
-		int size = 801; // elements of the picker
-		String[] nums = new String[size];
-		for (int i = 0; i < size; i++)
-			nums[i] = Integer.toString(i + 100);
-		numberPicker.setMinValue(100);
-		numberPicker.setMaxValue(size - 1);
-		numberPicker.setWrapSelectorWheel(true);
-		numberPicker.setDisplayedValues(nums);
-		numberPicker.setValue(100);
-
-		ok.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
-				int number = numberPicker.getValue();
-				roomNumberBtn.setText(Integer.toString(number));
-				dialog.hide();
-				//finish();
-			}
-		});
+		
 	}
+	
 
 	/** Date picker Methods+ Inner Classes**/
 	
@@ -507,8 +445,6 @@ public class AddActivity extends Activity {
 	}
 	
 	/** Time picker Methods + Inner Classes**/
-	
-	/**	Number picker classes	**/
 	
 	
 	
