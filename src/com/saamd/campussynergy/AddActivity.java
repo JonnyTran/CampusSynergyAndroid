@@ -43,7 +43,9 @@ import android.widget.Toast;
 
 public class AddActivity extends Activity {
 	
-
+	 public static final String NEW_EVENT_INTENT = "com.saamd.campussynergy.intent.action.NEW_EVENT";
+	 
+	
 	public static final String PREFS_NAME = "MyPrefsFile";
 	private SharedPreferences settings;
 	
@@ -67,8 +69,7 @@ public class AddActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
-		
+
 		
 		//retrieve data from shared preferences
 		settings = getSharedPreferences(PREFS_NAME, 0);
@@ -100,8 +101,9 @@ public class AddActivity extends Activity {
 			startActivity(i);
 			finish();
 		} else {
-
+			
 			setContentView(R.layout.add_layout);
+						
 
 			// Initialize Variables, connecting xml to java
 			titleText = (EditText) findViewById(R.id.editText_eventTitle);
@@ -199,21 +201,12 @@ public class AddActivity extends Activity {
 				campus_synergy.put("title", titleText.getText().toString());
 				campus_synergy.put("bldName", dropDownSpinner.getSelectedItem().toString());
 				campus_synergy.put("longDescription", descriptionText.getText().toString());
-	
-				// Reformatting the string from hh:mm to hh.mm
-	
-				String holder = startingTimeBtn.getText().toString();
-				String array[] = holder.split(":");
-				String number = array[0] + "." + array[1];
-				System.out.println("number: " + number + " Holder is: " + holder);
-				/**/
-				
+			
 				campus_synergy.put("date", eventDate);
 				
 				campus_synergy.put("duration", Integer.parseInt(durationBtn.getText().toString()));
 				campus_synergy.put("roomString", roomNumber.getText().toString());
 				campus_synergy.put("publisher", settings.getString("publisherName", " "));
-				// campus_synergy.saveInBackground();
 				
 				campus_synergy.saveInBackground(new SaveCallback() {
 					
@@ -227,7 +220,26 @@ public class AddActivity extends Activity {
 						Toast toast = Toast.makeText(context, text, duration);
 						toast.show();
 						
-									
+						//The activity is done here
+						//so we broadcast an intent with the new event in it
+						//so the main activity would catch that event 
+						//and add it to the eventList and the map
+						
+						//MAKING A NEW EVENT
+						Event newEvent = new Event(titleText.getText().toString(), 
+								dropDownSpinner.getSelectedItem().toString(), 
+								descriptionText.getText().toString(), 
+								roomNumber.getText().toString(), 
+								Integer.parseInt(durationBtn.getText().toString()), 
+								eventDate, 
+								settings.getString("publisherName", " "));
+						//MAKING A INTENT AND BROADCASTING IT
+						Intent i = new Intent();
+						i.setAction(NEW_EVENT_INTENT);
+						i.putExtra("Event", newEvent );
+						context.sendBroadcast(i);
+
+						//TERMINATING THE ACTIVITY
 						finish();
 					}
 				});

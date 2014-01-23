@@ -31,12 +31,15 @@ import com.parse.ParseQuery;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -58,6 +61,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class MainActivity2 extends Activity {
 	
+	public static int ADD_EVENT_REQUEST_CODE = 92;	//WHY 92, WHY NOT?
 	
 	public static final String PREFS_NAME = "MyPrefsFile";
 	private SharedPreferences settings;
@@ -96,14 +100,51 @@ public class MainActivity2 extends Activity {
 	
 	//map stuff
 	public static GoogleMap map;
-	private final static LatLng HOME_LOCATION = new LatLng(32.72898611111111, -97.11500833333332);		//HOME LOCATION	
+	private final static LatLng HOME_LOCATION = new LatLng(32.731, -97.1145);		//HOME LOCATION	
 	
 	private ViewFragment mapFragment;
+	
+	
+	
+    
+    
+    //the following variables are created to preserve the views and prevent to inflater from making a duplicate view
+    static View mapView = null;
+    static View listView = null;
+    static View addEventView = null;
+    static View aboutUsView = null;
 	
 	
 	//UI eventList
 	private static ListView list;
 	
+	
+	BroadcastReceiver newEventReceiver = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if(intent.getAction().equals(AddActivity.NEW_EVENT_INTENT))
+			{
+				Event event = (Event) intent.getSerializableExtra("Event");
+				//Toast.makeText(context, "New event was added", Toast.LENGTH_SHORT).show();
+				eventList.add( event ); // catches the new event and adds it to the list
+				//add all the building to the building list
+				Building bld = new Building(event.getBuildingName());
+				
+				//if the new building is not highlighted already
+				if (! buildingList.containsKey(event.getBuildingName()))
+				{
+					// we add the building to the hashtable
+					buildingList.put(event.getBuildingName() ,bld);
+					//adding stuff to the map fragment
+					fetchBuildingDataFromXML();		//update the retrieved coordinates
+					highlightBuildings();			//re highlight the buildings
+					addPolygonListenerToMap();		// add Polygon listeners again
+				}
+
+			}
+		}
+	};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +185,11 @@ public class MainActivity2 extends Activity {
 		queryParse();
 		
 		//initialize data structures
+		
+		//register the NEW_EVENT receiver
+		IntentFilter filter = new IntentFilter(AddActivity.NEW_EVENT_INTENT);
+		registerReceiver(newEventReceiver, filter);
+		
 		
 		//link up UI
 		
@@ -205,7 +251,7 @@ public class MainActivity2 extends Activity {
 
 	
 	
-	public void queryParse() {
+	private void queryParse() {
 
 		//initialize the array list
 		eventList = new ArrayList<Event>();
@@ -426,7 +472,6 @@ public class MainActivity2 extends Activity {
 				startActivity(intent);
 	        	break;
         	case R.id.menu_refresh:
-        		map.clear();	//clears the polygons
         		queryParse();	//updates the events
         		
 	        	break;
@@ -515,7 +560,7 @@ public class MainActivity2 extends Activity {
     
     
     
-    public void addPolygonListenerToMap() {
+    private void addPolygonListenerToMap() {
 		map.setOnMapClickListener(new OnMapClickListener() {
 			
 			public void onMapClick(LatLng location) {
@@ -545,7 +590,7 @@ public class MainActivity2 extends Activity {
 	}
     
 	
-	public String whatBuildingWasClicked(Double lat, Double lng){
+	private String whatBuildingWasClicked(Double lat, Double lng){
 		
 		for (String itm : buildingList.keySet())
 		{	
@@ -559,8 +604,9 @@ public class MainActivity2 extends Activity {
 	}
     
 	
-	public void highlightBuildings()
-	{
+	private void highlightBuildings()
+	{	
+		map.clear();	//CLEARS UP THE MAP BEFORE WE ADD STUFF TO IT
 		if(buildingList.isEmpty())
 			Log.d(TAG, "buildingList is empty");
 		for (String itm : buildingList.keySet())
@@ -575,7 +621,7 @@ public class MainActivity2 extends Activity {
 	 * Highlights a building
 	 * @param buildingName: make sure building names are correct!!
 	 */
-	public void highlightBuilding(String buildingName)
+	private void highlightBuilding(String buildingName)
 	{
 		// XML node keys
 		ArrayList<Double> list = null;
@@ -602,7 +648,7 @@ public class MainActivity2 extends Activity {
 			
 			Polygon polygon = map.addPolygon(rectOptions);
 			polygon.setStrokeColor(Color.RED);
-			polygon.setStrokeWidth(1);
+			polygon.setStrokeWidth(2);
 	        polygon.setFillColor( Color.argb(100, 225, 0, 120) );
 		} catch(Exception e0){
 			Log.d(TAG, "ERROR 0: Exception: BAD BUILDING NAME!");
@@ -636,23 +682,8 @@ public class MainActivity2 extends Activity {
     	super.onResume();
     }
     
-    
-    
-    //the following variables are created to preserve the views and prevent to inflater from making a duplicate view
-    static View mapView = null;
-    static View listView = null;
-    static View addEventView = null;
-    static View aboutUsView = null;
-    
-    
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-    	map.clear();	//clears the polygons
-		queryParse();	//updates the events
-		Log.d(TAG, "Welcome back!");
-    	super.onActivityResult(requestCode, resultCode, data);
-    }
+    
 	
 	/**
      * Fragment that appears in the "content_frame", shows a View
@@ -716,6 +747,17 @@ public class MainActivity2 extends Activity {
     	{
     		final String[] e_mail = new String[]{"uta.mobi@gmail.com"};
     		final String subject = "FEEDBACK (DON'T CHANGE) CSA";
+    		
+    		Button btn_openWebsite = (Button) aboutUsView.findViewById(R.id.button_oen_mobis_website);
+    		btn_openWebsite.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent i = new Intent(Intent.ACTION_VIEW);
+					i.setData(Uri.parse("http://idappthat.mobi/"));
+					startActivity(i);
+				}
+			});
     		
     		Button btn_report = (Button) aboutUsView.findViewById(R.id.button_feedBack);
     		btn_report.setOnClickListener(new OnClickListener() {
@@ -847,7 +889,7 @@ public class MainActivity2 extends Activity {
     			//filling in the data for each coupon
     			try{
     				
-    				SimpleDateFormat format1 = new SimpleDateFormat("hh:mm a  MM/dd/yyy");
+    				SimpleDateFormat format1 = new SimpleDateFormat("    hh:mm a\nMM/dd/yyy");
     				String eventDate = format1.format( currentEvent.getDate() );  
     				
     				title.setText(currentEvent.getTitle());

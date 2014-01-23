@@ -12,14 +12,14 @@
         android:icon="@drawable/ic_action_map"
         android:menuCategory="container"
         android:showAsAction="never|withText"
-        android:title="Home">
+        android:title="HOME">
     </item>
     <item
         android:id="@+id/menu_refresh"
         android:icon="@drawable/ic_action_refresh"
         android:menuCategory="container"
         android:showAsAction="never|withText"
-        android:title="Refresh">
+        android:title="REFRESH">
     </item>
     
 

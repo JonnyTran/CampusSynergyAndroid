@@ -23,15 +23,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left|center"
+            android:maxEms="15"
+            android:maxLines="1"
             android:text="Event Title"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+id/textView_list_item_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|center"
-            android:text="Event time" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="22sp" />
 
     </LinearLayout>
 
@@ -55,6 +51,13 @@
             android:layout_marginLeft="5dp"
             android:text="AL"
             android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/textView_list_item_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Event time"
+            android:textSize="12sp" />
 
     </LinearLayout>
 

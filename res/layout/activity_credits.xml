@@ -40,6 +40,12 @@
                 android:text="Mobi(formerly known as SAAMD) is a student organization that aims to engage its members in an active learning environment for mobile development while promoting scholastic excellence.\nStudents will be able to apply their knowledge in Java, OOP, Algorithms, Database, OS, Mobile Systems, and Networks to their own projects that involve mobile development using the iPhone and Android OS as an integral part in their projects.\nEntrepreneurial thinking is encouraged as Mobi explores the tools that start-ups are using to make the rapid development process possible in such a fast moving world. These objectives aim to harbor creativity and leadership skills in our members. They also promote a sense of commitment and teamwork when students carry these projects through full business models taking them from the white-board to the real market."
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
+            <Button
+                android:id="@+id/button_oen_mobis_website"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Visit Mobi&apos;s website" />
+
             <TextView
                 android:id="@+id/textView_list_item_title"
                 android:layout_width="wrap_content"
@@ -54,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="Zedd Shmais\n"
+                android:text="Zedd Shmais\nThaddeus Madison"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
