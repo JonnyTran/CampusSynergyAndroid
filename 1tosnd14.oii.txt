@@ -1,0 +1,71 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	renamed:    res/layout/event_list.xml -> res/layout/event_list_item.xml
+#	renamed:    res/menu/main.xml -> res/menu/login_menu.xml
+#
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   AndroidManifest.xml
+#	modified:   lint.xml
+#	modified:   res/layout/activity_credits.xml
+#	modified:   res/layout/activity_event_display.xml
+#	modified:   res/layout/activity_main.xml
+#	modified:   res/layout/add_layout.xml
+#	modified:   res/layout/event_list_item.xml
+#	modified:   res/layout/fragment_event_list_dummy.xml
+#	modified:   res/layout/marker_info_window_layout.xml
+#	modified:   res/layout/number_picker.xml
+#	modified:   res/menu/login_menu.xml
+#	modified:   res/values/strings.xml
+#	modified:   src/com/saamd/campussynergy/AddActivity.java
+#	modified:   src/com/saamd/campussynergy/CreditsActivity.java
+#	modified:   src/com/saamd/campussynergy/EventDisplay.java
+#	modified:   src/com/saamd/campussynergy/EventList.java
+#	modified:   src/com/saamd/campussynergy/MainActivity.java
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	libs/android-support-v13.jar
+#	res/drawable-hdpi/action_search.png
+#	res/drawable-hdpi/drawer_shadow.9.png
+#	res/drawable-hdpi/ic_action_add_alarm.png
+#	res/drawable-hdpi/ic_action_map.png
+#	res/drawable-hdpi/ic_action_new.png
+#	res/drawable-hdpi/ic_action_refresh.png
+#	res/drawable-hdpi/ic_drawer.png
+#	res/drawable-mdpi/action_search.png
+#	res/drawable-mdpi/drawer_shadow.9.png
+#	res/drawable-mdpi/ic_action_add_alarm.png
+#	res/drawable-mdpi/ic_action_map.png
+#	res/drawable-mdpi/ic_action_new.png
+#	res/drawable-mdpi/ic_action_refresh.png
+#	res/drawable-mdpi/ic_drawer.png
+#	res/drawable-xhdpi/action_search.png
+#	res/drawable-xhdpi/drawer_shadow.9.png
+#	res/drawable-xhdpi/ic_action_add_alarm.png
+#	res/drawable-xhdpi/ic_action_map.png
+#	res/drawable-xhdpi/ic_action_new.png
+#	res/drawable-xhdpi/ic_action_refresh.png
+#	res/drawable-xhdpi/ic_drawer.png
+#	res/drawable-xxhdpi/ic_action_add_alarm.png
+#	res/drawable-xxhdpi/ic_action_map.png
+#	res/drawable-xxhdpi/ic_action_new.png
+#	res/drawable-xxhdpi/ic_action_refresh.png
+#	res/layout/activity_main_activity2.xml
+#	res/layout/drawer_list_item.xml
+#	res/layout/fragment_view.xml
+#	res/layout/map_layout.xml
+#	res/menu/logout_menu.xml
+#	res/menu/main_activity2.xml
+#	res/menu/topright_menu.xml
+#	res/values/colors.xml
+#	src/com/saamd/campussynergy/MainActivity2.java
+

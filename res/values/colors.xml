@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="MilkyWhite">#FCFFF5</color>
+    
+    <color name="MilkyBlue">#D1DBBD</color>
+    
+    <color name="MilkyNavy">#91AA9D</color>
+    
+    <color name="lightBlue">#3E606F</color>
+    
+    <color name="DarkBlue">#193441</color>
+
+</resources>

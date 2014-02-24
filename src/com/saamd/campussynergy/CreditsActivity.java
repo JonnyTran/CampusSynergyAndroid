@@ -22,12 +22,12 @@ public class CreditsActivity extends Activity {
 		final String[] e_mail = new String[]{"uta.mobi@gmail.com"};
 		final String subject = "FEEDBACK (DON'T CHANGE) CSA";
 		
-		feedBack = (Button) findViewById(R.id.feedBack);		
+		feedBack = (Button) findViewById(R.id.button_feedBack);		
 		feedBack.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				
 				Intent i = new Intent(Intent.ACTION_SEND);
 				
 				i.setType("plain/text");

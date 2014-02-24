@@ -174,35 +174,43 @@ public class LoginActivity extends Activity {
 			ParseUser.logInInBackground(mEmail, mPassword, new LogInCallback() {
 				public void done(ParseUser user, ParseException e) {
 					if (user != null) {
-						// Hooray! The user is logged in.
 						name = user.getString("name");		//sets the username to global variable name, user to print a toast
-						Log.d("USER","email: " + mEmail + " pass: " + mPassword);
-						SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-						SharedPreferences.Editor editor = settings.edit();
-						editor.putString("publisherName", user.getString("name") );
-						editor.putString("username", mEmail);
-						editor.putString("password", mPassword);
-						editor.putInt("lastLoginMonth", Calendar.getInstance().get(Calendar.MONTH));	//sets the month to the current month
-						editor.commit();
 						
-						//displaying a success toast
-						Context context = getApplicationContext();
-						CharSequence text = "Welcome, " + name + ".";
-						int duration = Toast.LENGTH_LONG;
-						Toast toast = Toast.makeText(context, text, duration);
-						toast.show();
+						//the following check fixing the problem of not having a name in the database
+						if(name == null)
+						{
+							name = "";
+						}
 						
-						
+						//check is user email is verified
+						if(!user.getBoolean("emailVerified"))
+						{
+							//the user has not verified his/her email yet
+							Toast.makeText(getApplicationContext(), "Hey " + name + ", please verify your email before you login!", Toast.LENGTH_SHORT).show();
+							cancel = true;
+						}
+						else{
+							// Hooray! The user is logged in.
+							Log.d("USER","email: " + mEmail + " pass: " + mPassword);
+							SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+							SharedPreferences.Editor editor = settings.edit();
+							editor.putString("publisherName", user.getString("name") );
+							editor.putString("username", mEmail);
+							editor.putString("password", mPassword);
+							editor.putInt("lastLoginMonth", Calendar.getInstance().get(Calendar.MONTH));	//sets the month to the current month
+							editor.commit();
+							
+							//displaying a success toast
+							Toast.makeText( getApplicationContext(), "Welcome, " + name + ".", Toast.LENGTH_LONG).show();
+						}
+												
 					} else {
-						// Signup failed. Look at the ParseException to see what
-						// happened.
+						// Sign in failed. Look at the ParseException to see what happened.
 						cancel = true;
 						//displaying a failing toast
-						Context context = getApplicationContext();
 						CharSequence text = "Incorrect email and/or password";
-						int duration = Toast.LENGTH_LONG;
-						Toast toast = Toast.makeText(context, text, duration);
-						toast.show();
+						Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+						
 					}
 				}
 			});
@@ -307,8 +315,7 @@ public class LoginActivity extends Activity {
 				//close current window
 				finish();
 			} else {
-				mPasswordView
-						.setError(getString(R.string.error_incorrect_password));
+				mPasswordView.setError(getString(R.string.error_incorrect_password));
 				mPasswordView.requestFocus();				
 			}
 		}
